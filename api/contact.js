@@ -1,13 +1,76 @@
-import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import dns from 'dns';
-import fs from 'fs/promises';
-import path from 'path';
 import nodemailer from 'nodemailer';
+import dns from 'dns';
 
-const BACKUP_FILE = path.join(process.cwd(), 'messages.json');
+// Set DNS servers to resolve MongoDB Atlas SRV records correctly
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+
+const contactSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
+    trim: true
+  },
+  email: {
+    type: String,
+    required: [true, 'Email is required'],
+    trim: true,
+    match: [/\S+@\S+\.\S+/, 'Please use a valid email address']
+  },
+  whatsapp: {
+    type: String,
+    trim: true
+  },
+  message: {
+    type: String,
+    required: [true, 'Message is required'],
+    trim: true,
+    minlength: [10, 'Message must be at least 10 characters long']
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const ContactMessage = mongoose.models.ContactMessage || mongoose.model('ContactMessage', contactSchema);
+
+let cachedConnection = global.mongoose;
+
+if (!cachedConnection) {
+  cachedConnection = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectToDatabase() {
+  if (cachedConnection.conn) {
+    return cachedConnection.conn;
+  }
+
+  if (!cachedConnection.promise) {
+    const opts = {
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 5000,
+    };
+
+    const MONGODB_URI = process.env.MONGODB_URI;
+    if (!MONGODB_URI) {
+      throw new Error('MONGODB_URI is not set in environment variables');
+    }
+
+    cachedConnection.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
+      return mongooseInstance;
+    });
+  }
+  
+  try {
+    cachedConnection.conn = await cachedConnection.promise;
+  } catch (e) {
+    cachedConnection.promise = null;
+    throw e;
+  }
+
+  return cachedConnection.conn;
+}
 
 async function sendEmailNotification(messageData) {
   const { name, email, whatsapp, message } = messageData;
@@ -20,7 +83,6 @@ async function sendEmailNotification(messageData) {
     return;
   }
 
-  // Create transporter using Gmail service
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -101,83 +163,30 @@ ToniDev Portfolio.`,
     `
   };
 
-  try {
-    await Promise.all([
-      transporter.sendMail(senderMailOptions),
-      transporter.sendMail(toniMailOptions)
-    ]);
-    console.log(`Notification and thank-you emails successfully sent`);
-  } catch (error) {
-    console.error('Failed to send email notification:', error.message);
-  }
+  await Promise.all([
+    transporter.sendMail(senderMailOptions),
+    transporter.sendMail(toniMailOptions)
+  ]);
 }
 
-// Set DNS servers to resolve MongoDB Atlas SRV records correctly on some Windows configurations
-dns.setServers(['8.8.8.8', '1.1.1.1']);
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-dotenv.config();
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Disable buffering globally
-mongoose.set('bufferCommands', false);
-
-// MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio';
-mongoose.connect(MONGODB_URI, {
-  serverSelectionTimeoutMS: 2500, // Quick fail if database is offline (2.5s instead of 30s)
-  bufferCommands: false // Disable buffering for all models on this connection
-})
-  .then(() => console.log('Connected to MongoDB successfully'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-mongoose.connection.on('error', err => {
-  console.error('MongoDB connection error event:', err.message);
-});
-
-// Schema and Model
-const contactSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Name is required'],
-    trim: true
-  },
-  email: {
-    type: String,
-    required: [true, 'Email is required'],
-    trim: true,
-    match: [/\S+@\S+\.\S+/, 'Please use a valid email address']
-  },
-  whatsapp: {
-    type: String,
-    trim: true
-  },
-  message: {
-    type: String,
-    required: [true, 'Message is required'],
-    trim: true,
-    minlength: [10, 'Message must be at least 10 characters long']
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
-}, {
-  bufferCommands: false // Disable buffering so Mongoose queries fail immediately if DB is offline
-});
 
-const ContactMessage = mongoose.model('ContactMessage', contactSchema);
+  if (req.method !== 'POST') {
+    return res.status(405).json({
+      success: false,
+      message: 'Method not allowed'
+    });
+  }
 
-// API Route
-app.post('/api/contact', async (req, res) => {
   const { name, email, whatsapp, message } = req.body;
 
-  // Validate incoming request body first
   if (!name || !email || !message) {
     return res.status(400).json({
       success: false,
@@ -193,78 +202,28 @@ app.post('/api/contact', async (req, res) => {
     createdAt: new Date()
   };
 
-  // Trigger email notification in background (non-blocking)
-  sendEmailNotification(messageData).catch(err => {
-    console.error('Background email notification failed:', err);
-  });
-
-  // Check if MongoDB is connected (readyState 1)
-  if (mongoose.connection.readyState !== 1) {
-    console.warn('Database connection is not active. Falling back to local storage.');
-    try {
-      let existingMessages = [];
-      try {
-        const fileContent = await fs.readFile(BACKUP_FILE, 'utf-8');
-        existingMessages = JSON.parse(fileContent);
-      } catch (readError) {
-        // File doesn't exist yet or is empty/corrupt
-      }
-
-      existingMessages.push({ ...messageData, savedLocally: true });
-      await fs.writeFile(BACKUP_FILE, JSON.stringify(existingMessages, null, 2), 'utf-8');
-
-      return res.status(201).json({
-        success: true,
-        message: 'Message received and saved locally (offline mode)',
-        data: messageData
-      });
-    } catch (fsError) {
-      console.error('Failed to save message to local fallback:', fsError.message);
-      return res.status(503).json({
-        success: false,
-        message: 'Database is offline and local fallback failed. Please try again later.'
-      });
-    }
-  }
-
   try {
+    const emailPromise = sendEmailNotification(messageData).catch(err => {
+      console.error('Email notification failed:', err);
+    });
+
+    await connectToDatabase();
+
     const newMessage = new ContactMessage(messageData);
     const savedMessage = await newMessage.save();
+
+    await emailPromise;
+
     return res.status(201).json({
       success: true,
       message: 'Message saved successfully',
       data: savedMessage
     });
   } catch (err) {
-    console.error('Failed to save message to database:', err.message);
-
-    // If saving to DB fails, try the local fallback as well
-    try {
-      let existingMessages = [];
-      try {
-        const fileContent = await fs.readFile(BACKUP_FILE, 'utf-8');
-        existingMessages = JSON.parse(fileContent);
-      } catch (readError) {}
-
-      existingMessages.push({ ...messageData, savedLocally: true });
-      await fs.writeFile(BACKUP_FILE, JSON.stringify(existingMessages, null, 2), 'utf-8');
-
-      return res.status(201).json({
-        success: true,
-        message: 'Message saved locally (database error fallback)',
-        data: messageData
-      });
-    } catch (fsError) {
-      return res.status(500).json({
-        success: false,
-        message: err.message || 'Failed to save message'
-      });
-    }
+    console.error('Database connection or save failed:', err.message);
+    return res.status(500).json({
+      success: false,
+      message: err.message || 'Failed to save message'
+    });
   }
-});
-
-// Start Server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`); // Express server listener
-});
-
+}

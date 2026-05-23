@@ -35,44 +35,13 @@ const ProjectCard = ({ project, onClick }) => {
         }`}
       />
 
-      {/* Overlay Banner (Visible on mobile/desktop, detailed hover) */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-6 z-20">
-        <span className="text-[10px] font-bold text-primary dark:text-blue-400 uppercase tracking-widest mb-1.5">
-          {project.category}
-        </span>
-        <h3 className="text-xl font-bold text-white mb-2">
-          {project.title}
-        </h3>
-        <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed mb-4">
-          {project.desc}
-        </p>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          {project.tags.map((tag, i) => (
-            <span 
-              key={i} 
-              className="text-[9px] font-semibold bg-white/10 dark:bg-slate-800/80 text-slate-200 px-2 py-0.5 rounded-full border border-white/5 uppercase tracking-wider"
-            >
-              {tag}
-            </span>
-          ))}
+      {/* Hover Overlay — Only Explore Project */}
+      <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
+        <div className="bg-slate-900/85 backdrop-blur-md border border-white/10 px-5 py-3 rounded-full flex items-center gap-2.5 text-white font-bold text-sm tracking-wide shadow-2xl transform translate-y-3 group-hover:translate-y-0 transition-all duration-300">
+          <Eye className="w-4 h-4 text-blue-500 dark:text-blue-400" />
+          <span>Explore Project</span>
+          <ArrowRight className="w-4 h-4 text-blue-500 dark:text-blue-400 transition-transform group-hover:translate-x-1" />
         </div>
-
-        {/* Action Link */}
-        <div className="flex items-center justify-between text-xs font-bold text-primary dark:text-blue-400 pt-1.5 border-t border-white/10">
-          <span className="inline-flex items-center gap-1.5">
-            <Eye className="w-3.5 h-3.5" />
-            <span>Explore Project</span>
-          </span>
-          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-        </div>
-      </div>
-
-      {/* Mobile Title Banner (always visible on mobile, hidden when hovered on desktop) */}
-      <div className="sm:hidden absolute top-4 left-4 right-4 bg-slate-950/85 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/10 flex items-center justify-between z-20 shadow-lg">
-        <span className="text-xs font-bold text-white truncate max-w-[70%]">{project.title}</span>
-        <span className="text-[9px] font-bold text-blue-400 uppercase tracking-wider">{project.category}</span>
       </div>
     </div>
   );

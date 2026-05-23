@@ -26,3 +26,5 @@ messages.json
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
