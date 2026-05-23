@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favour Toni — CV / Resume</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .cv-container {
+      max-width: 850px;
+      margin: 0 auto;
+      background: white;
+      padding: 50px 60px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .btn-container {
+      max-width: 850px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .print-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .print-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+      background: #1d4ed8;
+    }
+
+    header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 25px;
+      margin-bottom: 25px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .name-title h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .name-title p {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .contact-info {
+      text-align: right;
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .contact-info a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .contact-info a:hover {
+      color: var(--primary);
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+    }
+
+    .summary-text {
+      font-size: 14px;
+      color: #334155;
+      text-align: justify;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .skill-category {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #f1f5f9;
+    }
+
+    .skill-category h4 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    .skill-list {
+      font-size: 13px;
+      color: #334155;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .job {
+      margin-bottom: 20px;
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .job-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .job-date {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .job-desc {
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .project-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .project-item {
+      margin-bottom: 15px;
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .project-item::before {
+      content: "•";
+      color: var(--primary);
+      font-size: 18px;
+      position: absolute;
+      left: 0;
+      top: -2px;
+    }
+
+    .project-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .project-details {
+      font-size: 13px;
+      color: #334155;
+      margin-top: 2px;
+      line-height: 1.5;
+    }
+
+    .project-link {
+      font-size: 12px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 6px;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      .cv-container {
+        padding: 30px 20px;
+      }
+      .header-top {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .contact-info {
+        text-align: left;
+      }
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background-color: white;
+        color: black;
+        padding: 0;
+      }
+      .cv-container {
+        box-shadow: none;
+        padding: 0;
+        border-radius: 0;
+      }
+      .btn-container {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="btn-container">
+    <button class="print-btn" onclick="window.print()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Print / Save as PDF
+    </button>
+  </div>
+
+  <div class="cv-container">
+    <header>
+      <div class="header-top">
+        <div class="name-title">
+          <h1>Favour Toni</h1>
+          <p>Full-Stack & Web3 Developer</p>
+        </div>
+        <div class="contact-info">
+          <span>Email: <a href="mailto:tonifavour@gmail.com">tonifavour@gmail.com</a></span>
+          <span>Twitter: <a href="https://x.com/FavourToni" target="_blank">@FavourToni</a></span>
+          <span>Telegram: <a href="https://t.me/Fetony" target="_blank">@Fetony</a></span>
+          <span>LinkedIn: <a href="https://www.linkedin.com/in/favour-etim-7aa243411" target="_blank">Favour Etim</a></span>
+          <span>Location: Nigeria (GMT+1) • Remote Friendly</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="section">
+      <div class="section-title">Professional Summary</div>
+      <p class="summary-text">
+        High-performing and results-oriented Full-Stack Developer with extensive experience building scalable web applications, interactive decentralized applications (Web3), and AI-driven platforms. Highly skilled in React, Next.js, Node.js, and TypeScript, with a focused commitment to modern software engineering practices, performance tuning, and creating premium pixel-perfect, responsive user experiences.
+      </p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Core Skills & Expertise</div>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h4>Frontend Development</h4>
+          <p class="skill-list">React, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, Vite, HTML5, CSS3, Progressive Web Apps (PWA)</p>
+        </div>
+        <div class="skill-category">
+          <h4>Backend & Systems</h4>
+          <p class="skill-list">Node.js, Express, REST APIs, MongoDB, Service Workers, Offline Sync Architecture, Security Practices</p>
+        </div>
+        <div class="skill-category">
+          <h4>Web3 & AI Technology</h4>
+          <p class="skill-list">TON Blockchain Ecosystem, Telegram Mini Apps, DApp Integrations, Smart Contract Interaction, LLM & AI API Integrations</p>
+        </div>
+        <div class="skill-category">
+          <h4>DevOps & Tools</h4>
+          <p class="skill-list">Git, Vercel, Netlify, Cloudinary Asset Management, Performance Audits, Responsive Web Testing</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Professional Projects & Highlights</div>
+      
+      <div class="job">
+        <div class="job-header">
+          <span class="job-title">Full-Stack & Web3 Developer (Freelance / Contract)</span>
+          <span class="job-date">2023 — Present</span>
+        </div>
+        <p class="job-desc">Architecting and building responsive, high-performance web systems and decentralized blockchain hubs.</p>
+        
+        <ul class="project-list">
+          <li class="project-item">
+            <span class="project-name">TON Africa</span>
+            <a href="https://ton-africa.vercel.app/" class="project-link" target="_blank">ton-africa.vercel.app</a>
+            <div class="project-details">
+              Developed a custom Web3 community ecosystem focused on onboarding Africans to the TON Blockchain. Programmed interactions for Telegram Mini Apps and educational hubs.
+            </div>
+          </li>
+          
+          <li class="project-item">
+            <span class="project-name">FreedomAI — InfoFi</span>
+            <a href="https://freedomai-infofi.vercel.app/" class="project-link" target="_blank">freedomai-infofi.vercel.app</a>
+            <div class="project-details">
+              Built an AI-driven Information Finance (InfoFi) platform combining data indexing, knowledge asset monetization, and live AI chats using React, TypeScript, and large language model APIs.
+            </div>
+          </li>
+          
+          <li class="project-item">
+            <span class="project-name">Surgetrix</span>
+            <a href="https://surgetrix-three.vercel.app/" class="project-link" target="_blank">surgetrix-three.vercel.app</a>
+            <div class="project-details">
+              Created a real-time surge pricing analytics portal designed for transport service aggregation, helping users track live price shifts across services. Built with a React frontend and Node.js data backend.
+            </div>
+          </li>
+          
+          <li class="project-item">
+            <span class="project-name">Paula's Palace Store</span>
+            <a href="https://paula-s-palace-store.vercel.app/" class="project-link" target="_blank">paula-s-palace-store.vercel.app</a>
+            <div class="project-details">
+              Engineered a premium children's and ladies' fashion e-commerce catalog featuring state-driven shopping cart features, Cloudinary image rendering, Next.js server pre-rendering, and fluid CSS animations.
+            </div>
+          </li>
+
+          <li class="project-item">
+            <span class="project-name">NUESA Uniuyo E-Library</span>
+            <a href="https://nuesa-uniuyo-e-library-five.vercel.app/" class="project-link" target="_blank">nuesa-uniuyo-e-library-five.vercel.app</a>
+            <div class="project-details">
+              Deployed a complete digital library platform serving engineering students at the University of Uyo. Engineered service workers for custom offline access to materials, paired with a companion Android build.
+            </div>
+          </li>
+
+          <li class="project-item">
+            <span class="project-name">Beyond the Syllabus</span>
+            <a href="https://beyondthesyllabus.online/" class="project-link" target="_blank">beyondthesyllabus.online</a>
+            <div class="project-details">
+              Designed and built a landing portal for a Tech & Web3 summit, supporting smooth visitor intake, registration forms, and modern community outreach schedules.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
