@@ -54,7 +54,10 @@ const Contact = () => {
       });
     }
 
-    const apiUrl = import.meta.env.VITE_API_URL || '';
+    let apiUrl = import.meta.env.VITE_API_URL || '';
+    if (import.meta.env.PROD && apiUrl.includes('localhost')) {
+      apiUrl = '';
+    }
 
     try {
       const response = await fetch(`${apiUrl}/api/contact`, {
@@ -95,9 +98,16 @@ const Contact = () => {
       }
     } catch (err) {
       console.error("Backend submission failed:", err);
+      let errorMessage = "Unable to connect to the backend server. Please try again later.";
+      if (err.message === "Server returned an invalid response.") {
+         errorMessage = "The server returned an invalid HTML response. Please check your backend connection.";
+      } else if (err.name === 'TypeError') {
+         errorMessage = "Network error: Unable to reach the server. Is it running?";
+      }
+      
       setErrors(prev => ({
         ...prev,
-        submit: "Unable to connect to the backend server. Please try again later."
+        submit: errorMessage
       }));
     } finally {
       setIsSubmitting(false);
