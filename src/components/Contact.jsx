@@ -54,13 +54,8 @@ const Contact = () => {
       });
     }
 
-    let apiUrl = import.meta.env.VITE_API_URL || '';
-    if (import.meta.env.PROD && apiUrl.includes('localhost')) {
-      apiUrl = '';
-    }
-
     try {
-      const response = await fetch(`${apiUrl}/api/contact`, {
+      const response = await fetch('/api/contact', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
