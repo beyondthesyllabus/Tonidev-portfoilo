@@ -16,10 +16,10 @@ const About = () => {
               </h2>
               <div className="w-16 h-1.5 bg-primary dark:bg-blue-600 rounded-full"></div>
             </div>
-            <p className="text-base sm:text-lg text-black dark:text-white font-bold leading-relaxed">
+            <p className="text-base sm:text-lg text-on-surface-variant dark:text-slate-300 leading-relaxed">
               I’m a Full Stack Developer passionate about building fast, scalable, and user friendly web applications. I specialize in both frontend and backend development, using modern technologies to create clean, responsive, and efficient digital solutions.
             </p>
-            <p className="text-base sm:text-lg text-black dark:text-white font-bold leading-relaxed">
+            <p className="text-base sm:text-lg text-on-surface-variant dark:text-slate-300 leading-relaxed">
               I enjoy turning ideas into real products, solving problems with code, and delivering experiences that combine great design with strong functionality.
             </p>
           </div>

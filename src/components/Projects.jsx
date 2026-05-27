@@ -108,6 +108,14 @@ const Projects = () => {
       category: "Web3 / DeFi",
       gradient: "from-blue-500 to-sky-400",
       liveUrl: "https://ton-africa.vercel.app/"
+    },
+    {
+      title: "TON Educational Bot",
+      desc: "An interactive educational dashboard and AI chatbot platform dedicated to the TON ecosystem. The backend is powered by Python and FastAPI, featuring real-time Telegram bot integration.",
+      tags: ["Python", "FastAPI", "JavaScript", "AI/LLM", "TON Blockchain"],
+      category: "Full-Stack",
+      gradient: "from-blue-400 to-indigo-500",
+      liveUrl: "https://ton-educational-bot.vercel.app/"
     }
   ];
 
@@ -127,18 +135,19 @@ const Projects = () => {
   return (
     <section 
       id="projects" 
-      className="py-24 md:py-[120px] bg-surface-container-lowest dark:bg-[#1e293b] transition-colors duration-300"
+      className="py-16 md:py-[120px] bg-surface-container-lowest dark:bg-[#1e293b] transition-colors duration-300"
     >
-      <div className="max-w-[1280px] mx-auto px-6 md:px-12">        {/* Section Header — My Work */}
-        <div className="space-y-7 text-left mb-20 relative">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-12">
+        {/* Section Header — My Work */}
+        <div className="space-y-5 sm:space-y-7 text-left mb-12 sm:mb-20 relative">
           <div className="space-y-3">
             <h2 className="text-4xl sm:text-[58px] font-black text-on-surface dark:text-white leading-none tracking-tight">
               My <span className="text-primary dark:text-blue-500">Work</span>
             </h2>
-            <div className="w-20 h-1.5 bg-primary dark:bg-blue-600 rounded-full"></div>
+            <div className="w-16 sm:w-20 h-1.5 bg-primary dark:bg-blue-600 rounded-full"></div>
           </div>
           
-          <p className="text-base sm:text-lg text-on-surface-variant dark:text-slate-300 leading-relaxed max-w-2xl">
+          <p className="text-sm sm:text-lg text-on-surface-variant dark:text-slate-300 leading-relaxed max-w-2xl">
             Deployed scalable full-stack web platforms and interactive systems. 
             Highly focused on modern engineering practices, performance tuning, and creating premium pixel-perfect user experiences.
           </p>
@@ -146,10 +155,10 @@ const Projects = () => {
           {/* Category Filter Tabs */}
           <div className="flex flex-wrap gap-2 pt-2">
             {categories.map((category) => (
-              <button
+               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all border cursor-pointer ${
+                className={`px-3 py-2 sm:px-4 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-bold tracking-wider uppercase transition-all border cursor-pointer ${
                   selectedCategory === category
                     ? 'bg-primary border-primary text-white dark:bg-blue-600 dark:border-blue-600 shadow-md scale-105'
                     : 'bg-white/50 border-outline-variant/60 text-on-surface-variant dark:bg-slate-800/40 dark:border-slate-800 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800'
@@ -162,8 +171,8 @@ const Projects = () => {
         </div>
 
         {/* Search Input and Filters Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 border-b border-outline-variant/30 dark:border-slate-800/40 pb-6">
-          <p className="text-sm font-semibold text-on-surface-variant dark:text-slate-400">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 sm:mb-10 border-b border-outline-variant/30 dark:border-slate-800/40 pb-6">
+          <p className="text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-400 w-full sm:w-auto text-left">
             Showing {filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'}
           </p>
           
@@ -174,25 +183,33 @@ const Projects = () => {
               placeholder="Search projects or tags..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-4 py-2 rounded-full border border-outline-variant/60 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white transition-all shadow-sm"
+              className="w-full pl-11 pr-4 py-2 sm:py-2.5 rounded-full border border-outline-variant/60 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white transition-all shadow-sm"
             />
           </div>
         </div>
 
         {/* Projects Grid */}
         {filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-8">
             {filteredProjects.map((project, idx) => (
-              <ProjectCard 
-                key={idx} 
-                project={project} 
-                onClick={() => setActiveProject(project)} 
-              />
+              <div 
+                key={idx}
+                className="sticky sm:static w-full transition-all duration-300"
+                style={{
+                  top: `calc(80px + ${idx * 16}px)`,
+                  zIndex: idx + 10
+                }}
+              >
+                <ProjectCard 
+                  project={project} 
+                  onClick={() => setActiveProject(project)} 
+                />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 glass-card rounded-xl border border-outline-variant/60 dark:border-slate-800 p-8">
-            <p className="text-lg font-semibold text-outline dark:text-slate-500">
+          <div className="text-center py-12 sm:py-16 glass-card rounded-xl border border-outline-variant/60 dark:border-slate-800 p-6 sm:p-8">
+            <p className="text-sm sm:text-lg font-semibold text-outline dark:text-slate-500">
               No projects found matching your search.
             </p>
           </div>

@@ -97,13 +97,6 @@
     background: linear-gradient(65deg, #9440e8 0%, #9440e8 100%, rgba(255, 209, 0, 0) 100%);
   }
 
-  /* Hover transitions to expand underlines on parent hover */
-  .expertise-card:hover .chonky-underline-magenta::after,
-  .expertise-card:hover .chonky-underline-blue::after,
-  .expertise-card:hover .chonky-underline-yellow::after,
-  .expertise-card:hover .chonky-underline-violet::after {
-    height: 0.8em;
-    bottom: 4%;
-  }
+
 }
 

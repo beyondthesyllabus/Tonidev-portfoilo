@@ -63,7 +63,17 @@ const Skills = () => {
           {skillCategories.map((category, idx) => (
             <div
               key={idx}
-              className="expertise-card p-6 rounded-xl flex flex-col space-y-6 transition-all duration-300 hover:bg-slate-500/5 dark:hover:bg-slate-800/20 border border-transparent hover:border-outline-variant/30 dark:hover:border-slate-800/50"
+              className="expertise-card p-6 rounded-xl flex flex-col space-y-6 transition-all duration-300 
+                bg-white dark:bg-slate-900 md:bg-transparent 
+                shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 md:shadow-none 
+                border border-outline-variant/40 dark:border-slate-800 md:border-transparent 
+                hover:border-outline-variant/60 dark:hover:border-slate-700 
+                md:hover:bg-slate-500/5 md:dark:hover:bg-slate-800/20 
+                sticky md:static"
+              style={{
+                top: `calc(100px + ${idx * 20}px)`,
+                zIndex: idx
+              }}
             >
               {/* Icon and Title */}
               <div className="flex items-start gap-4">

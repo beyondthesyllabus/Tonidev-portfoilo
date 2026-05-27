@@ -90,6 +90,17 @@ const ProjectModal = ({ project, onClose }) => {
           "Telegram ecosystem integration and deep-links",
           "Bold, on-brand responsive design with animations"
         ]
+      },
+      "TON Educational Bot": {
+        role: "Full-Stack Python Developer",
+        challenge: "Needed a comprehensive educational tool for the TON ecosystem that seamlessly integrates a frontend learning dashboard with a robust backend capable of managing real-time Telegram bot status and AI chatbot interactions.",
+        solution: "Built the backend using Python with FastAPI for a high-performance REST API and python-telegram-bot for long polling. The frontend provides learning modules, quizzes, and a live AI chatbot interface powered by LLMs.",
+        features: [
+          "Python backend with FastAPI for high-performance API",
+          "Real-time Telegram bot polling (python-telegram-bot)",
+          "AI chatbot integration for educational interactions",
+          "Interactive frontend dashboard with quizzes and modules"
+        ]
       }
     };
 

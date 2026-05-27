@@ -88,66 +88,21 @@ const Hero = () => {
             <div className="space-y-2">
               <div className="w-full max-w-[520px] mx-auto md:mx-0">
 
-                {/* ── LIGHT MODE: SVG video cutout mask ── */}
-                <svg className="dark:hidden w-full h-auto select-none pointer-events-none" viewBox="0 0 520 100" preserveAspectRatio="xMinYMid meet">
-                  <defs>
-                    <mask id="hero-text-mask-both">
-                      <rect x="0" y="0" width="100%" height="100%" fill="black" />
-                      <text
-                        x="0"
-                        y="36"
-                        fill="white"
-                        fontSize="50"
-                        fontWeight="900"
-                        fontFamily="Inter, sans-serif"
-                        letterSpacing="-1"
-                      >
-                        {"Hi, I'm ToniDev.".slice(0, line1Progress)}
-                        {phase === 'typing1' && '|'}
-                      </text>
-                      <text
-                        x="0"
-                        y="80"
-                        fill="white"
-                        fontSize="40"
-                        fontWeight="900"
-                        fontFamily="Inter, sans-serif"
-                        letterSpacing="-1"
-                      >
-                        {"Full-Stack Web Developer  ".slice(0, line2Progress)}
-                        {phase === 'typing2' && '|'}
-                      </text>
-                    </mask>
-                  </defs>
-                  <foreignObject x="0" y="0" width="520" height="100" mask="url(#hero-text-mask-both)">
-                    <div xmlns="http://www.w3.org/1999/xhtml" className="w-full h-full">
-                      <video
-                        className="w-full h-full object-cover pointer-events-none select-none"
-                        src="/tech-loop.mp4"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                      />
-                    </div>
-                  </foreignObject>
-                </svg>
-
-                {/* ── DARK MODE: plain bold text, no mask ── */}
-                <div className="hidden dark:block space-y-1 select-none">
+                {/* ── UNIFIED MODE: Sleek Text ── */}
+                <div className="space-y-1 select-none">
                   <p
-                    style={{ fontSize: '50px', fontWeight: 900, letterSpacing: '-1px', lineHeight: 1.1 }}
-                    className="text-white font-black"
+                    style={{ fontSize: '50px', letterSpacing: '-1px', lineHeight: 1.1 }}
+                    className="text-slate-800 dark:text-white font-semibold"
                   >
                     {"Hi, I'm ToniDev.".slice(0, line1Progress)}
-                    {phase === 'typing1' && <span className="opacity-70">|</span>}
+                    {phase === 'typing1' && <span className="opacity-70 font-light">|</span>}
                   </p>
                   <p
-                    style={{ fontSize: '40px', fontWeight: 900, letterSpacing: '-1px', lineHeight: 1.1 }}
-                    className="text-black font-black"
+                    style={{ fontSize: '40px', letterSpacing: '-0.5px', lineHeight: 1.1 }}
+                    className="text-slate-600 dark:text-slate-300 font-normal"
                   >
                     {"Full-Stack Web Developer".slice(0, line2Progress)}
-                    {phase === 'typing2' && <span className="opacity-70">|</span>}
+                    {phase === 'typing2' && <span className="opacity-70 font-light">|</span>}
                   </p>
                 </div>
 
