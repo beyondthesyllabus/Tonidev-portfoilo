@@ -41,7 +41,7 @@ While you wait, feel free to explore my work and projects at my portfolio.
 Looking forward to connecting with you!
 
 Best regards,
-Anthony
+ToniDev
 Full-Stack web Developer.`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff; color: #334155;">
@@ -53,7 +53,7 @@ Full-Stack web Developer.`,
         <p style="font-size: 16px; line-height: 1.6;">Looking forward to connecting with you!</p>
         <div style="margin-top: 30px; border-top: 1px solid #edf2f7; padding-top: 15px;">
           <p style="font-size: 16px; line-height: 1.6; margin: 0; color: #475569;">Best regards,</p>
-          <p style="font-size: 16px; line-height: 1.6; font-weight: bold; margin: 4px 0 0 0; color: #1e293b;">Anthony</p>
+          <p style="font-size: 16px; line-height: 1.6; font-weight: bold; margin: 4px 0 0 0; color: #1e293b;">ToniDev</p>
           <p style="font-size: 14px; color: #64748b; margin: 0;">Full-Stack web Developer.</p>
         </div>
       </div>

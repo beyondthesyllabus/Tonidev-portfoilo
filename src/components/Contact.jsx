@@ -71,7 +71,15 @@ const Contact = () => {
         })
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type");
+      let data;
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        console.error("Non-JSON response from server:", text);
+        throw new Error("Server returned an invalid response.");
+      }
 
       if (response.ok && data.success) {
         setSubmitSuccess(true);
